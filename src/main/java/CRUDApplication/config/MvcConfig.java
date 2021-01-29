@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-
+    //Testing git commit!!!!
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
