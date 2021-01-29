@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar bg-dark">
+    <span class="navbar-brand text-white"><p></p></span>
+    <ul class="nav justify-content-end bg-dark">
+        <li class="nav-item ">
+            <a class="nav-link" href="/logout"><span class="font-weight-normal text-white">Logout</span></a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid bg-light h-100">
+    <div class="row h-100">
+        <div class="col-md-2 pt-3" style="background-color: #ffffff">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active rounded-0 text-left" href="/admin/users">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-0 text-left" href="/user/info">User</a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-sm-10">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="list"><br>
+                    <h1>Admin panel</h1>
+                    <ul class="nav nav-tabs">
+                        <!--Link for User table-->
+                        <li class="nav-item">
+                            <a class="nav-link active" id="navTable" data-toggle="tab" href="#usersTab">Users table</a>
+                        </li>
+                        <!--Link for Create new User-->
+                        <li class="nav-item">
+                            <a class="nav-link" id="navNewUser" data-toggle="tab" href="#newUser">New User</a>
+                        </li></ul>
+                    <!--Users table-->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="usersTab">
+                            <div class="tab-content" style="border: 1px solid lightgray">
+                                <div class="tab-pane fade show active"><br>
+                                    <h3 class="p-3">All Users</h3>
+                                    <div class="container-fluid p-4" style="background-color: #ffffff">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Username</th>
+                                                    <th>Password</th>
+                                                    <th>Role</th>
+                                                    <th>Edit</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="myTable">
+                                                <!--admin.js/createTable()-->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--            EDITMODAL-->
+
+                        <div id="editModal" class="modal fade" aria-hidden="true" data-toggle="modal">
+
+
+                            <form class="form" id="editForm" name="editForm"
+                                  method="post">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="card text-center">
+                                            <div class="card-header font-weight-bolder text-left bg-white">
+                                                Edit user
+                                                <div class="form-group mx-auto w-50">
+
+
+                                                    <label for="userId" class="font-weight-bolder">ID</label>
+                                                    <input readonly type="text" class="form-control form-control-sm text-center"
+                                                           id="userId">
+
+                                                    <label for="userUsername" class="font-weight-bolder">Username</label>
+                                                    <input required type="text" class="form-control form-control-sm text-center"
+                                                           id="userUsername">
+
+                                                    <label for="userPassword" class="font-weight-bolder">Password</label>
+                                                    <input required type="password" class="form-control form-control-sm text-center"
+                                                           id="userPassword">
+
+                                                    <label class="font-weight-bolder">Role</label>
+                                                    <select class="form-control" id="userRole" multiple size="2">
+                                                    </select>
+
+                                                </div>
+                                                <div class="card-footer text-right bg-white">
+                                                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button id="editBtn" class="btn btn-primary" type="submit" data-dismiss="modal"
+                                                            onclick="updateUser()">Edit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="deleteModal" class="modal fade" aria-hidden="true" data-toggle="modal">
+
+
+                            <form class="form" id="deleteForm" name="deleteForm"
+                                  method="post">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="card text-center">
+                                            <div class="card-header font-weight-bolder text-left bg-white">
+                                                Deleted user
+                                                <div class="form-group mx-auto w-50">
+
+
+                                                    <label for="deleteUserId" class="font-weight-bolder">ID</label>
+                                                    <input readonly type="text" class="form-control form-control-sm text-center"
+                                                           id="deleteUserId">
+
+                                                    <label for="deleteUserLogin" class="font-weight-bolder">Username</label>
+                                                    <input readonly type="text" class="form-control form-control-sm text-center"
+                                                           id="deleteUserLogin">
+
+                                                    <label for="deleteUserPassword" class="font-weight-bolder">Password</label>
+                                                    <input readonly type="password" class="form-control form-control-sm text-center"
+                                                           id="deleteUserPassword">
+
+                                                    <label for="deleteUserRole" class="font-weight-bolder">Role</label>
+                                                    <input readonly class="form-control" id="deleteUserRole">
+
+                                                </div>
+                                                <div class="card-footer text-right bg-white">
+                                                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button class="btn btn-primary" type="submit" data-dismiss="modal" onclick="deleteUser()">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+                        <!--    ADDNEWUSER-->
+                        <div class="tab-pane fade" id="newUser"
+                             aria-labelledby="tab-newUser">
+                            <div class="card-header font-weight-bolder text-left h-75">
+                                Add new user
+                            </div>
+                            <form class="form mx-auto w-25" id="addUser">
+
+                                <div class="form-group">
+                                    <label for="newUserUsername" class="font-weight-bolder">Username:</label>
+                                    <input id="newUserUsername" name="newUserUsername" type="text" class="form-control"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newUserPassword" class="font-weight-bolder">Password:</label>
+                                    <input id="newUserPassword" name="newUserPassword" type="password" class="form-control"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bolder">Role</label>
+                                    <select class="form-control" id="newUserRole" name="role" multiple size="2">
+                                    </select>
+                                </div>
+                                <button id="addBtn" type="submit" class="btn btn-success">Add new user</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/admin.js" type="text/javascript" async></script>
+</body>
+</html>
